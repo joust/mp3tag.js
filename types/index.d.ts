@@ -21,6 +21,9 @@ export type MP3TagEncodings =
 export interface MP3TagDefaultReadOptions {
   id3v1: boolean;
   id3v2: boolean;
+  mp4: boolean;
+  aiff: boolean;
+  aac: boolean;
   unsupported: boolean;
   encoding: MP3TagEncodings;
 }
@@ -41,6 +44,9 @@ export interface MP3TagDefaultWriteOptions {
     unsupported: boolean;
     encoding: MP3TagEncodings;
   };
+  mp4: {
+    language: 'und'
+  };
 }
 
 export type MP3TagReadOptions = RecursivePartial<MP3TagDefaultReadOptions>;
@@ -48,7 +54,7 @@ export type MP3TagWriteOptions = RecursivePartial<MP3TagDefaultWriteOptions>;
 
 export class MP3Tag {
   readonly name = 'MP3Tag';
-  readonly version = '3.14.1';
+  readonly version = '3.16.0';
 
   verbose: boolean;
   buffer: MP3Buffer;
@@ -56,6 +62,7 @@ export class MP3Tag {
   error: string;
 
   static readBuffer (buffer: MP3Buffer, options?: MP3TagReadOptions, verbose?: boolean): MP3TagTags;
+  static readBlob (blob: Blob, options?: MP3TagReadOptions): Promise<MP3TagTags>;
   static writeBuffer (buffer: MP3Buffer, tags: MP3TagTags, options?: MP3TagWriteOptions, verbose?: boolean): MP3Buffer;
   static getAudioBuffer (buffer: MP3Buffer, emptyNone?: boolean): MP3Buffer;
 
